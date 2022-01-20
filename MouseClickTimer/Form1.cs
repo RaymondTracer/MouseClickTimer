@@ -21,7 +21,7 @@ namespace MouseClickTimer
 
             InitializeComponent();
 
-            label1.MouseClick += (s, e) =>
+            label1.MouseDown += (s, e) =>
             {
                 if (e.Button == MouseButtons.Right)
                 {
