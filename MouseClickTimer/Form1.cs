@@ -1,12 +1,10 @@
 using Gma.System.MouseKeyHook;
 
-using System.Diagnostics;
-
 namespace MouseClickTimer
 {
     public partial class Form1 : Form
     {
-        private IKeyboardMouseEvents events;
+        private readonly IKeyboardMouseEvents events;
         private DateTime lastClick = DateTime.Now;
         private bool closing;
         private bool firstClick = true;
@@ -21,7 +19,15 @@ namespace MouseClickTimer
 
             InitializeComponent();
 
-            label1.MouseDown += (s, e) =>
+            lblTimer.MouseDown += (s, e) =>
+            {
+                if (e.Button == MouseButtons.Right)
+                {
+                    firstClick = !firstClick;
+                }
+            };
+
+            MouseDown += (s, e) =>
             {
                 if (e.Button == MouseButtons.Right)
                 {
@@ -41,6 +47,8 @@ namespace MouseClickTimer
 
         private void UpdateLabel()
         {
+            lblTimer.ForeColor = DefaultBackColor;
+
             while (!closing)
             {
                 try
@@ -49,19 +57,22 @@ namespace MouseClickTimer
 
                     TimeSpan timeSinceLastClick = DateTime.Now - lastClick;
 
-                    Invoke(() => label1.Text = timeSinceLastClick.ToString());
+                    Invoke(() => lblTimer.Text = timeSinceLastClick.ToString());
 
-                    if (firstClick && label1.ForeColor != Color.Orange)
+                    if (firstClick && lblTimer.ForeColor != Color.Orange)
                     {
-                        label1.ForeColor = Color.Orange;
+                        BackColor = Color.Orange;
+                        lblTimer.BackColor = Color.Orange;
                     }
-                    else if (!firstClick && timeSinceLastClick < TimeSpan.FromSeconds(60) && label1.ForeColor != Color.Red)
+                    else if (!firstClick && timeSinceLastClick < TimeSpan.FromSeconds(60) && lblTimer.ForeColor != Color.Red)
                     {
-                        label1.ForeColor = Color.Red;
+                        BackColor = Color.Red;
+                        lblTimer.BackColor = Color.Red;
                     }
-                    else if (!firstClick && timeSinceLastClick >= TimeSpan.FromSeconds(60) && label1.ForeColor != Color.Green)
+                    else if (!firstClick && timeSinceLastClick >= TimeSpan.FromSeconds(60) && lblTimer.ForeColor != Color.Green)
                     {
-                        label1.ForeColor = Color.Green;
+                        BackColor = Color.Green;
+                        lblTimer.BackColor = Color.Green;
                     }
                 }
                 catch (Exception e)
@@ -74,7 +85,6 @@ namespace MouseClickTimer
                         }
 
                         File.WriteAllText(@".\error.txt", e.ToString());
-
                         MessageBox.Show(e.Message, "Error logged to error.txt");
                     }
                 }
