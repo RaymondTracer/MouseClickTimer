@@ -59,17 +59,17 @@ namespace MouseClickTimer
 
                     Invoke(() => lblTimer.Text = timeSinceLastClick.ToString());
 
-                    if (firstClick && lblTimer.ForeColor != Color.Orange)
+                    if (firstClick && BackColor != Color.Orange)
                     {
                         BackColor = Color.Orange;
                         lblTimer.BackColor = Color.Orange;
                     }
-                    else if (!firstClick && timeSinceLastClick < TimeSpan.FromSeconds(60) && lblTimer.ForeColor != Color.Red)
+                    else if (!firstClick && timeSinceLastClick < TimeSpan.FromSeconds(60) && BackColor != Color.Red)
                     {
                         BackColor = Color.Red;
                         lblTimer.BackColor = Color.Red;
                     }
-                    else if (!firstClick && timeSinceLastClick >= TimeSpan.FromSeconds(60) && lblTimer.ForeColor != Color.Green)
+                    else if (!firstClick && timeSinceLastClick >= TimeSpan.FromSeconds(60) && BackColor != Color.Green)
                     {
                         BackColor = Color.Green;
                         lblTimer.BackColor = Color.Green;
