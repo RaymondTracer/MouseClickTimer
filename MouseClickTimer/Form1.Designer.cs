@@ -28,25 +28,25 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.lblTimer = new System.Windows.Forms.Label();
+            this.LblTimer = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // lblTimer
+            // LblTimer
             // 
-            this.lblTimer.Font = new System.Drawing.Font("Segoe UI", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblTimer.Location = new System.Drawing.Point(12, 9);
-            this.lblTimer.Name = "lblTimer";
-            this.lblTimer.Size = new System.Drawing.Size(360, 60);
-            this.lblTimer.TabIndex = 0;
-            this.lblTimer.Text = "label1";
-            this.lblTimer.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.LblTimer.Font = new System.Drawing.Font("Segoe UI", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.LblTimer.Location = new System.Drawing.Point(12, 9);
+            this.LblTimer.Name = "LblTimer";
+            this.LblTimer.Size = new System.Drawing.Size(360, 60);
+            this.LblTimer.TabIndex = 0;
+            this.LblTimer.Text = "label1";
+            this.LblTimer.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(384, 91);
-            this.Controls.Add(this.lblTimer);
+            this.Controls.Add(this.LblTimer);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -59,6 +59,6 @@
 
         #endregion
 
-        private Label lblTimer;
+        private Label LblTimer;
     }
 }

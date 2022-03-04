@@ -4,77 +4,75 @@ namespace MouseClickTimer
 {
     public partial class Form1 : Form
     {
-        private readonly IKeyboardMouseEvents events;
-        private DateTime lastClick = DateTime.Now;
-        private bool closing;
-        private bool firstClick = true;
+        private readonly IKeyboardMouseEvents KMEvents;
+        private DateTime LastClick = DateTime.Now;
+        private TimeSpan TimeSinceLastClick => DateTime.Now - LastClick;
+        private bool IsClosing;
+        private bool FirstClick = true;
 
         public Form1()
         {
             Shown += (s, e) => Task.Run(UpdateLabel);
-            FormClosing += (s, e) => closing = true;
+            FormClosing += (s, e) => IsClosing = true;
 
-            events = Hook.GlobalEvents();
-            events.MouseClick += Events_MouseClick;
+            KMEvents = Hook.GlobalEvents();
+            KMEvents.MouseDown += Events_MouseDown;
 
             InitializeComponent();
             Location = new(-8, 0);
 
-            lblTimer.MouseDown += HandleMouseDown;
-            MouseDown += HandleMouseDown;
+            LblTimer.MouseDown += Form_MouseDown;
+            MouseDown += Form_MouseDown;
         }
 
-        private void HandleMouseDown(object? sender, MouseEventArgs e)
+        private void Form_MouseDown(object? sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
             {
-                firstClick = !firstClick;
+                FirstClick = !FirstClick;
             }
         }
 
-        private void Events_MouseClick(object? sender, MouseEventArgs e)
+        private void Events_MouseDown(object? sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.XButton1 && ((DateTime.Now - lastClick) >= TimeSpan.FromSeconds(60) || firstClick))
+            if (e.Button == MouseButtons.XButton1 && (TimeSinceLastClick >= TimeSpan.FromSeconds(60) || FirstClick))
             {
-                lastClick = DateTime.Now;
-                firstClick = false;
+                LastClick = DateTime.Now;
+                FirstClick = false;
             }
         }
 
         private void UpdateLabel()
         {
-            lblTimer.ForeColor = DefaultBackColor;
+            LblTimer.ForeColor = DefaultBackColor;
 
-            while (!closing)
+            while (!IsClosing)
             {
                 try
                 {
                     Thread.Sleep(1);
 
-                    //Invoke(() => Text = Location.ToString());
+                    Invoke(() => LblTimer.Text = TimeSinceLastClick.ToString());
 
-                    TimeSpan timeSinceLastClick = DateTime.Now - lastClick;
-                    Invoke(() => lblTimer.Text = timeSinceLastClick.ToString());
-
-                    if (firstClick && BackColor != Color.Orange)
+                    if (FirstClick && BackColor != Color.Orange)
                     {
                         BackColor = Color.Orange;
-                        lblTimer.BackColor = Color.Orange;
+                        LblTimer.BackColor = Color.Orange;
                     }
-                    else if (!firstClick && timeSinceLastClick < TimeSpan.FromSeconds(60) && BackColor != Color.Red)
+                    else if (!FirstClick && TimeSinceLastClick < TimeSpan.FromSeconds(60) && BackColor != Color.Red)
                     {
                         BackColor = Color.Red;
-                        lblTimer.BackColor = Color.Red;
+                        LblTimer.BackColor = Color.Red;
                     }
-                    else if (!firstClick && timeSinceLastClick >= TimeSpan.FromSeconds(60) && BackColor != Color.Green)
+                    else if (!FirstClick && TimeSinceLastClick >= TimeSpan.FromSeconds(60) && BackColor != Color.Green)
                     {
                         BackColor = Color.Green;
-                        lblTimer.BackColor = Color.Green;
+                        LblTimer.BackColor = Color.Green;
                     }
                 }
                 catch (Exception e)
                 {
-                    if (!closing)
+                    if (!IsClosing)
                     {
                         if (File.Exists(@".\error.txt"))
                         {
