@@ -18,22 +18,18 @@ namespace MouseClickTimer
             events.MouseClick += Events_MouseClick;
 
             InitializeComponent();
+            Location = new(-8, 0);
 
-            lblTimer.MouseDown += (s, e) =>
-            {
-                if (e.Button == MouseButtons.Right)
-                {
-                    firstClick = !firstClick;
-                }
-            };
+            lblTimer.MouseDown += HandleMouseDown;
+            MouseDown += HandleMouseDown;
+        }
 
-            MouseDown += (s, e) =>
+        private void HandleMouseDown(object? sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
             {
-                if (e.Button == MouseButtons.Right)
-                {
-                    firstClick = !firstClick;
-                }
-            };
+                firstClick = !firstClick;
+            }
         }
 
         private void Events_MouseClick(object? sender, MouseEventArgs e)
@@ -55,8 +51,9 @@ namespace MouseClickTimer
                 {
                     Thread.Sleep(1);
 
-                    TimeSpan timeSinceLastClick = DateTime.Now - lastClick;
+                    //Invoke(() => Text = Location.ToString());
 
+                    TimeSpan timeSinceLastClick = DateTime.Now - lastClick;
                     Invoke(() => lblTimer.Text = timeSinceLastClick.ToString());
 
                     if (firstClick && BackColor != Color.Orange)
