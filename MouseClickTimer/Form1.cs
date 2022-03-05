@@ -5,8 +5,10 @@ namespace MouseClickTimer
     public partial class Form1 : Form
     {
         private readonly IKeyboardMouseEvents KMEvents;
+
         private DateTime LastClick = DateTime.Now;
         private TimeSpan TimeSinceLastClick => DateTime.Now - LastClick;
+
         private bool IsClosing;
         private bool FirstClick = true;
 
@@ -16,29 +18,31 @@ namespace MouseClickTimer
             FormClosing += (s, e) => IsClosing = true;
 
             KMEvents = Hook.GlobalEvents();
-            KMEvents.MouseDown += Events_MouseDown;
+            KMEvents.MouseDown += HandleMouseDown;
 
             InitializeComponent();
             Location = new(-8, 0);
 
-            LblTimer.MouseDown += Form_MouseDown;
-            MouseDown += Form_MouseDown;
+            LblTimer.MouseDown += HandleMouseDown;
+            MouseDown += HandleMouseDown;
         }
 
-        private void Form_MouseDown(object? sender, MouseEventArgs e)
+        private void HandleMouseDown(object? sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Right)
+            if (sender is Control)
             {
-                FirstClick = !FirstClick;
+                if (e.Button == MouseButtons.Right)
+                {
+                    FirstClick = !FirstClick;
+                }
             }
-        }
-
-        private void Events_MouseDown(object? sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.XButton1 && (TimeSinceLastClick >= TimeSpan.FromSeconds(60) || FirstClick))
+            else
             {
-                LastClick = DateTime.Now;
-                FirstClick = false;
+                if (e.Button == MouseButtons.XButton1 && (TimeSinceLastClick >= TimeSpan.FromSeconds(60) || FirstClick))
+                {
+                    LastClick = DateTime.Now;
+                    FirstClick = false;
+                }
             }
         }
 
