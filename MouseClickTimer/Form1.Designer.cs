@@ -34,12 +34,12 @@
             // LblTimer
             // 
             this.LblTimer.Font = new System.Drawing.Font("Segoe UI", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.LblTimer.Location = new System.Drawing.Point(12, 9);
+            this.LblTimer.Location = new System.Drawing.Point(0, 9);
             this.LblTimer.Name = "LblTimer";
-            this.LblTimer.Size = new System.Drawing.Size(360, 60);
+            this.LblTimer.Size = new System.Drawing.Size(384, 73);
             this.LblTimer.TabIndex = 0;
             this.LblTimer.Text = "label1";
-            this.LblTimer.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.LblTimer.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // Form1
             // 
