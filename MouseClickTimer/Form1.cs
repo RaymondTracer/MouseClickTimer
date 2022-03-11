@@ -60,18 +60,15 @@ namespace MouseClickTimer
 
                     if (FirstClick && BackColor != Color.Orange)
                     {
-                        BackColor = Color.Orange;
-                        LblTimer.BackColor = Color.Orange;
+                        BackColor = LblTimer.BackColor = Color.Orange;
                     }
                     else if (!FirstClick && TimeSinceLastClick < TimeSpan.FromSeconds(60) && BackColor != Color.Red)
                     {
-                        BackColor = Color.Red;
-                        LblTimer.BackColor = Color.Red;
+                        BackColor = LblTimer.BackColor = Color.Red;
                     }
                     else if (!FirstClick && TimeSinceLastClick >= TimeSpan.FromSeconds(60) && BackColor != Color.Green)
                     {
-                        BackColor = Color.Green;
-                        LblTimer.BackColor = Color.Green;
+                        BackColor = LblTimer.BackColor = Color.Green;
                     }
                 }
                 catch (Exception e)
