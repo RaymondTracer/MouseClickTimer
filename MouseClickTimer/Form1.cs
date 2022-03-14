@@ -9,6 +9,8 @@ namespace MouseClickTimer
         private DateTime LastClick = DateTime.Now;
         private TimeSpan TimeSinceLastClick => DateTime.Now - LastClick;
 
+        private readonly TimeSpan TimeThreshold = TimeSpan.FromSeconds(60);
+
         private bool IsClosing;
         private bool FirstClick = true;
 
@@ -38,7 +40,7 @@ namespace MouseClickTimer
             }
             else
             {
-                if (e.Button == MouseButtons.XButton1 && (TimeSinceLastClick >= TimeSpan.FromSeconds(60) || FirstClick))
+                if (e.Button == MouseButtons.XButton1 && (TimeSinceLastClick >= TimeThreshold || FirstClick))
                 {
                     LastClick = DateTime.Now;
                     FirstClick = false;
@@ -62,11 +64,11 @@ namespace MouseClickTimer
                     {
                         BackColor = LblTimer.BackColor = Color.Orange;
                     }
-                    else if (!FirstClick && TimeSinceLastClick < TimeSpan.FromSeconds(60) && BackColor != Color.Red)
+                    else if (!FirstClick && TimeSinceLastClick < TimeThreshold && BackColor != Color.Red)
                     {
                         BackColor = LblTimer.BackColor = Color.Red;
                     }
-                    else if (!FirstClick && TimeSinceLastClick >= TimeSpan.FromSeconds(60) && BackColor != Color.Green)
+                    else if (!FirstClick && TimeSinceLastClick >= TimeThreshold && BackColor != Color.Green)
                     {
                         BackColor = LblTimer.BackColor = Color.Green;
                     }
@@ -75,12 +77,12 @@ namespace MouseClickTimer
                 {
                     if (!IsClosing)
                     {
-                        if (File.Exists(@".\error.txt"))
+                        if (File.Exists(@"error.txt"))
                         {
-                            File.Delete(@".\error.txt");
+                            File.Delete(@"error.txt");
                         }
 
-                        File.WriteAllText(@".\error.txt", e.ToString());
+                        File.WriteAllText("error.txt", e.ToString());
                         MessageBox.Show(e.Message, "Error logged to error.txt");
                     }
                 }
