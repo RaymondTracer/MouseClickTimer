@@ -16,8 +16,8 @@ namespace MouseClickTimer
 
         public Form1()
         {
-            Shown += (s, e) => Task.Run(UpdateLabel);
-            FormClosing += (s, e) => IsClosing = true;
+            Shown += (_, _) => Task.Run(UpdateLabel);
+            FormClosing += (_, _) => IsClosing = true;
 
             KMEvents = Hook.GlobalEvents();
             KMEvents.MouseDown += HandleMouseDown;
